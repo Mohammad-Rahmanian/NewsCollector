@@ -1,3 +1,11 @@
+import logging
+# General configuration for logging
+logging.basicConfig(level=logging.CRITICAL, format='%(asctime)s - %(levelname)s - %(module)s - %(message)s')
+
+# Custom logger for application-specific logs
+app_logger = logging.getLogger('application')
+app_logger.setLevel(logging.INFO)
+
 db_config = {
     'host': 'localhost',
     'port': 3306,
@@ -9,6 +17,8 @@ db_config = {
 kafka_config = {
     'bootstrap_servers': 'localhost:9092',
     'topic_name': 'agency_topic',
+    'consumer_group': 'news_collector_group',
+    'auto_offset_reset': 'earliest',
     'num_partitions': 8,
     'replication_factor': 1
 }

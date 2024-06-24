@@ -1,4 +1,4 @@
-id,name,link
+id,name,res_link
 1,خبرآنلاین,https://www.khabaronline.ir/rss
 2,خبرگزاری مهر,https://mehrnews.com/rss
 3,خبرگزاری دانشجو,https://www.tasnimnews.com/fa/rss/feed/0/8/0/%D8%A2%D8%AE%D8%B1%DB%8C%D9%86-%D8%AE%D8%A8%D8%B1%D9%87%D8%A7%DB%8C-%D8%B1%D9%88%D8%B2
@@ -8,4 +8,9 @@ id,name,link
 7,خبرگزاری ایسنا,https://www.isna.ir/rss
 8,خبرنگاران جوان,https://www.yjc.ir/fa/rss/allnews
 9,خبرگزاری کیهان,https://kayhan.ir/fa/rss/allnews
-10,همشهری آنلاین,https://www.hamshahrionline.ir/rss
+10,خبر فارسی,https://khabarfarsi.com/rss/top
+11,خبرگزاری برنا,https://borna.news/fa/rss/allnews
+12,همشهری آنلاین,https://www.hamshahrionline.ir/rss
+13,خبرگزاری میزان,https://www.mizanonline.ir/fa/rss/allnews
+14,مشرق نیوز,https://www.mashreghnews.ir/rss
+15,خبرگزاری عصر ایران,https://www.asriran.com/fa/rss/allnews

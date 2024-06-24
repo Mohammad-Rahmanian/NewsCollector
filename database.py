@@ -1,7 +1,6 @@
 import mysql.connector
 from config import db_config, app_logger
 
-
 def connect_to_database():
     """Establish a connection to the database with error handling."""
     try:
@@ -18,12 +17,10 @@ def connect_to_database():
         app_logger.error(f"Database connection failed: {err}")
         return None
 
-
 def execute_query(connection, query, commit=False):
     """Execute a given SQL query on the provided database connection and handle cursor within."""
-    cursor = None
+    cursor = connection.cursor()
     try:
-        cursor = connection.cursor()
         cursor.execute(query)
         if commit:
             connection.commit()
@@ -31,9 +28,7 @@ def execute_query(connection, query, commit=False):
     except mysql.connector.Error as err:
         app_logger.error(f"Failed to execute query: {err}")
     finally:
-        if cursor:
-            cursor.close()
-
+        cursor.close()
 
 def insert_news_items(connection, news_items, agency_id):
     """Insert news items into the 'news' table."""
@@ -41,9 +36,8 @@ def insert_news_items(connection, news_items, agency_id):
     INSERT INTO news (agency_id, news_link, news_title)
     VALUES (%s, %s, %s)
     """
-    cursor = None
+    cursor = connection.cursor()
     try:
-        cursor = connection.cursor()
         data_tuples = [(agency_id, item['link'], item['title']) for item in news_items]
         cursor.executemany(query, data_tuples)
         connection.commit()
@@ -51,30 +45,10 @@ def insert_news_items(connection, news_items, agency_id):
     except mysql.connector.Error as err:
         app_logger.error(f"Failed to insert records into MySQL table: {err}")
     finally:
-        if cursor:
-            cursor.close()
-
-
-def insert_news_agency(connection, name, rss_link):
-    """Insert a new agency into the 'news_agency' table."""
-    cursor = None
-    try:
-        cursor = connection.cursor()
-        query = "INSERT INTO news_agency (name, rss_link) VALUES (%s, %s)"
-        cursor.execute(query, (name, rss_link))
-        connection.commit()
-        agency_id = cursor.lastrowid
-        app_logger.info(f"Added {name} with RSS link {rss_link} and ID {agency_id}")
-        return agency_id
-    except mysql.connector.Error as err:
-        app_logger.error(f"Failed to insert news agency: {err}")
-    finally:
-        if cursor:
-            cursor.close()
-
+        cursor.close()
 
 def setup_database():
-    """Setup database and tables if they don't exist."""
+    """Setup database and tables with partitioning if they don't exist."""
     db = connect_to_database()
     if db:
         create_table_queries = [
@@ -88,12 +62,14 @@ def setup_database():
             '''
             CREATE TABLE IF NOT EXISTS news (
                 id INT AUTO_INCREMENT PRIMARY KEY,
-                agency_id INT,
+                agency_id INT NOT NULL,
                 news_link VARCHAR(1023),
                 news_title VARCHAR(255),
                 crawled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (agency_id) REFERENCES news_agency(id)
-            )
+                FOREIGN KEY (agency_id) REFERENCES news_agency(id),
+                UNIQUE INDEX agency_news (agency_id, id)
+            ) ENGINE=NDB
+              PARTITION BY KEY(agency_id) PARTITIONS 4
             '''
         ]
         for query in create_table_queries:

@@ -7,15 +7,15 @@ app_logger = logging.getLogger('application')
 app_logger.setLevel(logging.INFO)
 
 db_config = {
-    'host': 'localhost',
+    'host': 'mysql1',
     'port': 3306,
-    'user': 'user',
-    'password': 'password',
-    'database': 'news_db'
+    'user': 'teste',
+    'password': 'teste',
+    'database': 'bdteste'
 }
 
 kafka_config = {
-    'bootstrap_servers': 'localhost:9092',
+    'bootstrap_servers': 'kafka:9092',
     'topic_name': 'agency_topic',
     'consumer_group': 'news_collector_group',
     'auto_offset_reset': 'earliest',

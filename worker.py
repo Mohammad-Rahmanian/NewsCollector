@@ -1,5 +1,3 @@
-import time
-
 import requests
 import xml.etree.ElementTree as ET
 from database import insert_news_items, setup_database

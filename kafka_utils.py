@@ -1,9 +1,8 @@
 from kafka import KafkaProducer, KafkaConsumer, KafkaAdminClient
 from kafka.admin import NewTopic
-from config import kafka_config,app_logger
+from config import kafka_config, app_logger
 import json
 import time
-
 
 
 def create_kafka_producer():
@@ -32,6 +31,7 @@ def create_kafka_topic():
     except Exception as e:
         app_logger.error(f"Failed to create topic: {e}")
 
+
 def send_message_to_kafka(producer, topic, key, message):
     """Send a message to a Kafka topic."""
     try:
@@ -39,6 +39,7 @@ def send_message_to_kafka(producer, topic, key, message):
         app_logger.info(f"Message sent to topic {topic}: {message}")
     except Exception as e:
         app_logger.error(f"Failed to send message to Kafka: {str(e)}")
+
 
 def create_kafka_consumer(group_id):
     """Create and return a Kafka consumer for a specific group."""

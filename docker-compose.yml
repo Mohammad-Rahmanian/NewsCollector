@@ -1,29 +1,121 @@
-version: '3.7'
-
+version: '2'
 services:
+  management1:
+    image: docker.arvancloud.ir/mysql/mysql-cluster
+    volumes:
+      - ./mysql.conf/my.cnf:/etc/my.cnf
+      - ./mysql.conf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
+    command: ndb_mgmd
+    networks:
+      mysqlcluster:
+        ipv4_address: 172.28.0.2
+
+  ndb1:
+    image: docker.arvancloud.ir/mysql/mysql-cluster
+    volumes:
+      - ./mysql.conf/my.cnf:/etc/my.cnf
+      - ./mysql.conf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
+    command: ndbd
+    depends_on:
+      - "management1"
+    networks:
+      mysqlcluster:
+        ipv4_address: 172.28.0.3
+
+  ndb2:
+    image: docker.arvancloud.ir/mysql/mysql-cluster
+    volumes:
+      - ./mysql.conf/my.cnf:/etc/my.cnf
+      - ./mysql.conf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
+    command: ndbd
+    depends_on:
+      - "management1"
+    networks:
+      mysqlcluster:
+        ipv4_address: 172.28.0.4
+
+  mysql1:
+    image: docker.arvancloud.ir/mysql/mysql-cluster
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql.conf/my.cnf:/etc/my.cnf
+      - ./mysql.conf/mysql-cluster.cnf:/etc/mysql-cluster.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: news_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_HOST: '%'
+    command: mysqld
+    depends_on:
+      - "management1"
+      - "ndb1"
+      - "ndb2"
+    networks:
+      mysqlcluster:
+        ipv4_address: 172.28.0.10
+
+  adminer:
+    image: docker.arvancloud.ir/adminer
+    restart: always
+    ports:
+      - 8081:8080
+    links:
+      - mysql1:db
+    networks:
+      mysqlcluster:
+
   worker1:
     image: app-worker
-    restart: unless-stopped
+    depends_on:
+      - mysql1
+    command: ["sh", "-c", "sleep 440 && python worker.py"]
     networks:
-      - app-network
+      - mysqlcluster
 
   worker2:
     image: app-worker
-    restart: unless-stopped
+    depends_on:
+      - mysql1
+    command: ["sh", "-c", "sleep 440 && python worker.py"]
     networks:
-      - app-network
+      - mysqlcluster
 
   master:
     image: app-master
-    restart: unless-stopped
     depends_on:
       - worker1
       - worker2
-    command: sh -c "sleep 10 && python master.py"
+    command: ["sh", "-c", "sleep 450 && python master.py"]
     networks:
-      - app-network
+      - mysqlcluster
 
 networks:
-  app-network:
+  mysqlcluster:
     driver: bridge
+    ipam:
+     config:
+      - subnet: 172.28.0.0/16
+        gateway: 172.28.5.254
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

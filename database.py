@@ -1,9 +1,9 @@
 import mysql.connector
-from config import db_config,app_logger
+from config import db_config, app_logger
 
 
 def connect_to_database():
-    """Establish a connection to the database."""
+    """Establish a connection to the database with error handling."""
     try:
         connection = mysql.connector.connect(
             host=db_config['host'],
@@ -19,17 +19,20 @@ def connect_to_database():
         return None
 
 
-def create_table(connection, query):
-    """Generic function to create a table based on provided SQL query."""
+def execute_query(connection, query, commit=False):
+    """Execute a given SQL query on the provided database connection and handle cursor within."""
+    cursor = None
     try:
         cursor = connection.cursor()
         cursor.execute(query)
-        connection.commit()
-        app_logger.info("Table created successfully.")
+        if commit:
+            connection.commit()
+            app_logger.info("Query executed and committed successfully.")
     except mysql.connector.Error as err:
-        app_logger.error(f"Failed to create table: {err}")
+        app_logger.error(f"Failed to execute query: {err}")
     finally:
-        cursor.close()
+        if cursor:
+            cursor.close()
 
 
 def insert_news_items(connection, news_items, agency_id):
@@ -38,6 +41,7 @@ def insert_news_items(connection, news_items, agency_id):
     INSERT INTO news (agency_id, news_link, news_title)
     VALUES (%s, %s, %s)
     """
+    cursor = None
     try:
         cursor = connection.cursor()
         data_tuples = [(agency_id, item['link'], item['title']) for item in news_items]
@@ -47,12 +51,13 @@ def insert_news_items(connection, news_items, agency_id):
     except mysql.connector.Error as err:
         app_logger.error(f"Failed to insert records into MySQL table: {err}")
     finally:
-        cursor.close()
-
+        if cursor:
+            cursor.close()
 
 
 def insert_news_agency(connection, name, rss_link):
     """Insert a new agency into the 'news_agency' table."""
+    cursor = None
     try:
         cursor = connection.cursor()
         query = "INSERT INTO news_agency (name, rss_link) VALUES (%s, %s)"
@@ -64,18 +69,23 @@ def insert_news_agency(connection, name, rss_link):
     except mysql.connector.Error as err:
         app_logger.error(f"Failed to insert news agency: {err}")
     finally:
-        cursor.close()
+        if cursor:
+            cursor.close()
+
+
 def setup_database():
+    """Setup database and tables if they don't exist."""
     db = connect_to_database()
     if db:
-        create_table(db, '''
+        create_table_queries = [
+            '''
             CREATE TABLE IF NOT EXISTS news_agency (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
                 rss_link VARCHAR(255) NOT NULL
             )
-        ''')
-        create_table(db, '''
+            ''',
+            '''
             CREATE TABLE IF NOT EXISTS news (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 agency_id INT,
@@ -84,5 +94,8 @@ def setup_database():
                 crawled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (agency_id) REFERENCES news_agency(id)
             )
-        ''')
+            '''
+        ]
+        for query in create_table_queries:
+            execute_query(db, query, commit=True)
     return db

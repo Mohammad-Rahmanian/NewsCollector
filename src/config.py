@@ -9,9 +9,9 @@ app_logger.setLevel(logging.INFO)
 db_config = {
     'host': 'mysql1',
     'port': 3306,
-    'user': 'teste',
-    'password': 'teste',
-    'database': 'bdteste'
+    'user': 'user',
+    'password': 'password',
+    'database': 'news_db'
 }
 
 kafka_config = {
@@ -19,7 +19,7 @@ kafka_config = {
     'topic_name': 'agency_topic',
     'consumer_group': 'news_collector_group',
     'auto_offset_reset': 'earliest',
-    'num_partitions': 8,
+    'num_partitions': 4,
     'replication_factor': 1
 }
 

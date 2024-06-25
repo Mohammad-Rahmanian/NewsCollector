@@ -24,17 +24,28 @@ def load_and_process_agencies(db, producer):
 
 
 def main():
-    """Main function to set up and run the application logic."""
+    """Main function to set up and run the master application logic."""
+    db = None
+    producer = None
     try:
         db = setup_database()
-        if db:
-            create_kafka_topic()  # Setup Kafka topic
-            producer = create_kafka_producer()
-            load_and_process_agencies(db, producer)
-        else:
-            app_logger.error("Database setup failed, terminating application.")
+        if db is None:
+            app_logger.error("Database setup failed, terminating master application.")
+            return
+
+        producer = create_kafka_producer()
+        if producer is None:
+            app_logger.error("Failed to create Kafka producer, terminating application.")
+            return
+        create_kafka_topic()
+        load_and_process_agencies(db, producer)
     except Exception as e:
         app_logger.critical(f"Critical failure in main application: {e}")
+    finally:
+        if producer:
+            producer.close()
+        if db:
+            db.close()
 
 
 if __name__ == "__main__":

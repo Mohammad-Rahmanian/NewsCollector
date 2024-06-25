@@ -40,19 +40,32 @@ def process_messages(consumer, db):
 
 
 def main():
-    """Main function to handle workflow of consuming Kafka messages and processing news data."""
-    db = setup_database()
-    consumer = create_kafka_consumer(kafka_config['consumer_group'])
-    consumer.subscribe([kafka_config['topic_name']])
-    wait_for_topic(consumer, kafka_config['topic_name'])
-    app_logger.info("Ready to consume messages...")
-
+    """Main function to run the worker application for consuming Kafka messages and processing news data."""
+    db = None
+    consumer = None
     try:
+        db = setup_database()
+        if db is None:
+            app_logger.error("Database setup failed, terminating worker application.")
+            return
+
+        consumer = create_kafka_consumer(kafka_config['consumer_group'])
+        if consumer is None:
+            app_logger.error("Failed to create Kafka consumer, terminating application.")
+            return
+
+        consumer.subscribe([kafka_config['topic_name']])
+        wait_for_topic(consumer, kafka_config['topic_name'])
+        app_logger.info("Ready to consume messages...")
         process_messages(consumer, db)
+
     except Exception as e:
         app_logger.critical(f"An error occurred: {e}")
     finally:
-        consumer.close()
+        if consumer:
+            consumer.close()
+        if db:
+            db.close()
 
 
 if __name__ == "__main__":

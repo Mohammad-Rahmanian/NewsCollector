@@ -79,6 +79,12 @@ services:
     networks:
       mysqlcluster:
         ipv4_address: 172.28.0.10
+        
+    healthcheck:
+      test: ["CMD-SHELL", "mysql --user=user --password=password --execute=\"SHOW DATABASES;\""]
+      interval: 30s
+      retries: 10
+      start_period: 300s
 
   adminer:
     image: docker.arvancloud.ir/adminer
@@ -93,27 +99,30 @@ services:
   worker1:
     image: app-worker
     depends_on:
-      - kafka
-      - mysql1
-    command: ["sh", "-c", "sleep 460 && python worker.py"]
+      kafka:
+        condition: service_started
+      mysql1:
+        condition: service_healthy
     networks:
       - mysqlcluster
 
   worker2:
     image: app-worker
     depends_on:
-      - kafka
-      - mysql1
-    command: ["sh", "-c", "sleep 460 && python worker.py"]
+      kafka:
+        condition: service_started
+      mysql1:
+        condition: service_healthy
     networks:
       - mysqlcluster
 
   master:
     image: app-master
     depends_on:
-      - worker1
-      - worker2
-    command: ["sh", "-c", "sleep 480 && python master.py"]
+      worker1:
+        condition: service_started
+      worker2:
+        condition: service_started
     networks:
       - mysqlcluster
 

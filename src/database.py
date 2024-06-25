@@ -77,7 +77,7 @@ def setup_database():
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
                 rss_link VARCHAR(255) NOT NULL
-            )
+            ) ENGINE=NDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
             ''',
             '''
             CREATE TABLE IF NOT EXISTS news (
@@ -87,11 +87,19 @@ def setup_database():
                 news_title VARCHAR(255),
                 crawled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY (agency_id, id),
-                UNIQUE INDEX agency_news (agency_id, id)
-            ) ENGINE=NDB
-              PARTITION BY KEY(agency_id) PARTITIONS 4
+                FOREIGN KEY (agency_id) REFERENCES news_agency(id) ON DELETE CASCADE
+            ) ENGINE=NDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+              PARTITION BY KEY(agency_id) PARTITIONS 4;
             '''
         ]
         for query in create_table_queries:
-            execute_query(db, query, commit=True)
+            cursor = db.cursor()
+            try:
+                cursor.execute(query)
+                db.commit()
+            except mysql.connector.Error as err:
+                app_logger.error(f"Failed to execute query: {err}")
+            finally:
+                cursor.close()
+
     return db

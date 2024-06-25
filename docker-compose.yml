@@ -1,5 +1,29 @@
 version: '2'
+
 services:
+  zookeeper:
+    image: docker.arvancloud.ir/wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - mysqlcluster
+
+  kafka:
+    image: docker.arvancloud.ir/wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+    depends_on:
+      - zookeeper
+    networks:
+      - mysqlcluster
+
   management1:
     image: docker.arvancloud.ir/mysql/mysql-cluster
     volumes:
@@ -69,6 +93,7 @@ services:
   worker1:
     image: app-worker
     depends_on:
+      - kafka
       - mysql1
     command: ["sh", "-c", "sleep 440 && python worker.py"]
     networks:
@@ -77,6 +102,7 @@ services:
   worker2:
     image: app-worker
     depends_on:
+      - kafka
       - mysql1
     command: ["sh", "-c", "sleep 440 && python worker.py"]
     networks:
@@ -95,10 +121,9 @@ networks:
   mysqlcluster:
     driver: bridge
     ipam:
-     config:
-      - subnet: 172.28.0.0/16
-        gateway: 172.28.5.254
-
+      config:
+        - subnet: 172.28.0.0/16
+          gateway: 172.28.5.254
 
 
 

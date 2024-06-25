@@ -15,12 +15,12 @@ db_config = {
 }
 
 kafka_config = {
-    'bootstrap_servers': 'kafka:9093',
+    'bootstrap_servers': 'kafka1:9093,kafka2:9094',
     'topic_name': 'agency_topic',
     'consumer_group': 'news_collector_group',
     'auto_offset_reset': 'earliest',
     'num_partitions': 4,
-    'replication_factor': 1
+    'replication_factor': 2
 }
 
 file_paths = {

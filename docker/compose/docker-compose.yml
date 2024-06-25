@@ -8,7 +8,8 @@ services:
     networks:
       - mysqlcluster
 
-  kafka:
+
+  kafka1:
     image: docker.arvancloud.ir/wurstmeister/kafka
     ports:
       - "9093:9093"
@@ -16,13 +17,30 @@ services:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     depends_on:
       - zookeeper
     networks:
       - mysqlcluster
+
+  kafka2:
+    image: docker.arvancloud.ir/wurstmeister/kafka
+    ports:
+      - "9094:9094"
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+    depends_on:
+      - zookeeper
+    networks:
+      - mysqlcluster
+
 
   management1:
     image: docker.arvancloud.ir/mysql/mysql-cluster
@@ -99,7 +117,9 @@ services:
   worker1:
     image: app-worker
     depends_on:
-      kafka:
+      kafka1:
+        condition: service_started
+      kafka2:
         condition: service_started
       mysql1:
         condition: service_healthy
@@ -109,7 +129,9 @@ services:
   worker2:
     image: app-worker
     depends_on:
-      kafka:
+      kafka1:
+        condition: service_started
+      kafka2:
         condition: service_started
       mysql1:
         condition: service_healthy

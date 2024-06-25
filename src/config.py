@@ -15,7 +15,7 @@ db_config = {
 }
 
 kafka_config = {
-    'bootstrap_servers': 'kafka:9092',
+    'bootstrap_servers': 'kafka:9093',
     'topic_name': 'agency_topic',
     'consumer_group': 'news_collector_group',
     'auto_offset_reset': 'earliest',

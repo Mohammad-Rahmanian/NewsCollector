@@ -11,12 +11,12 @@ services:
   kafka:
     image: docker.arvancloud.ir/wurstmeister/kafka
     ports:
-      - "9092:9092"
+      - "9093:9093"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     depends_on:
@@ -95,7 +95,7 @@ services:
     depends_on:
       - kafka
       - mysql1
-    command: ["sh", "-c", "sleep 440 && python worker.py"]
+    command: ["sh", "-c", "sleep 460 && python worker.py"]
     networks:
       - mysqlcluster
 
@@ -104,7 +104,7 @@ services:
     depends_on:
       - kafka
       - mysql1
-    command: ["sh", "-c", "sleep 440 && python worker.py"]
+    command: ["sh", "-c", "sleep 460 && python worker.py"]
     networks:
       - mysqlcluster
 
@@ -113,7 +113,7 @@ services:
     depends_on:
       - worker1
       - worker2
-    command: ["sh", "-c", "sleep 450 && python master.py"]
+    command: ["sh", "-c", "sleep 480 && python master.py"]
     networks:
       - mysqlcluster
 
@@ -124,23 +124,4 @@ networks:
       config:
         - subnet: 172.28.0.0/16
           gateway: 172.28.5.254
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

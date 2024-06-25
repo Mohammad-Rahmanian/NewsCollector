@@ -81,12 +81,12 @@ def setup_database():
             ''',
             '''
             CREATE TABLE IF NOT EXISTS news (
-                id INT AUTO_INCREMENT PRIMARY KEY,
+                id INT AUTO_INCREMENT,
                 agency_id INT NOT NULL,
                 news_link VARCHAR(1023),
                 news_title VARCHAR(255),
                 crawled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (agency_id) REFERENCES news_agency(id),
+                PRIMARY KEY (agency_id, id),
                 UNIQUE INDEX agency_news (agency_id, id)
             ) ENGINE=NDB
               PARTITION BY KEY(agency_id) PARTITIONS 4

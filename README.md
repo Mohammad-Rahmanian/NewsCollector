@@ -1,6 +1,6 @@
 <div style="display: flex; align-items: center;">
   <h1>News Collector System</h1>
-  <img src="https://github.com/Mohammad-Rahmanian/Persian-News-Classification/assets/78559411/6560b2f8-76aa-4836-aefe-4d46c74e2bfe" alt="News" width="100">
+  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/2032f6b7-3daa-450f-a64d-41e51483b3e4" alt="News" width="100">
 </div>
 
 ## Project Overview

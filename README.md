@@ -62,6 +62,7 @@ docker build -f docker/Dockerfile.worker -t app-worker .
 ```
 
 ###Running the System with Docker Compose
+
 After building the Docker images, you can start the system using Docker Compose. Ensure you are in the directory containing the docker-compose.yml file, then execute:
 
 ```bash
@@ -72,6 +73,7 @@ This command will start all components of the News Collector System, including K
 
 
 ###Accessing Adminer
+
 Adminer is set up to manage the MySQL database. It can be accessed via:
 
 ```

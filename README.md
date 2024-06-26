@@ -24,8 +24,9 @@ This project is built around several key components that work together to ensure
 
 The master node serves as the central command center for the News Collector System. It performs several critical functions:
 
-- **Task Management**: It is responsible for managing the queue of tasks and ensures that all worker nodes are continuously supplied with data to process.
-
+- **Load Agencies**: It loads news agencies' information from a dataset, which includes details like agency names and their RSS feed links..
+- **Kafka Production**: After loading the data, it produces messages containing RSS feed information to Kafka topics, which worker nodes will consume.
+- **Load Balancing**: Distributes tasks evenly across worker nodes to optimize resource utilization and avoid bottlenecks.
 
 ### Worker Nodes
 

@@ -23,7 +23,11 @@ This project is built around several key components that work together to ensure
 - **Worker Nodes**: Handle the processing and storage of news data.
 - **Master Node**: Manages and coordinates the workflow between worker nodes.
 
-### Master Node
+<div style="display: flex; align-items: center;">
+  <h2>Master Node</h2>
+  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/9693d46b-6abf-424f-8cf2-922f14fe0b56" alt="News" width="100">
+</div>
+
 
 The master node serves as the central command center for the News Collector System. It performs several critical functions:
 

@@ -37,6 +37,11 @@ The master node serves as the central command center for the News Collector Syst
 - **Load Balancing**: Distributes tasks evenly across worker nodes to optimize resource utilization and avoid bottlenecks.
 
 ### Worker Nodes
+<div style="display: flex; align-items: center;">
+  <h2>Master Node</h2>
+  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/210e5cca-ba01-462c-92fd-c5def2bb4331" alt="News" width="100">
+</div>
+
 
 Worker nodes are the backbone of data processing within the News Collector System:
 

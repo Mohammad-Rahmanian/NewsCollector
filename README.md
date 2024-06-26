@@ -14,7 +14,11 @@ The News Collector System automates the collection, storage, and management of n
 - **Reliability**: Maintain high availability and persistence of news data through a resilient MySQL Cluster.
 - **Real-Time Processing**: Utilize Kafka for immediate processing and distribution of news data.
 
-## Architecture
+<div style="display: flex; align-items: center;">
+  <h1>Architecture/h1>
+  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/3a679d22-1b34-4b5f-9c26-aa297f1229d6" alt="Architecture" width="100">
+</div>
+
 
 This project is built around several key components that work together to ensure efficient data handling and storage:
 
@@ -25,7 +29,7 @@ This project is built around several key components that work together to ensure
 
 <div style="display: flex; align-items: center;">
   <h2>Master Node</h2>
-  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/84de8f0a-9c9f-4685-a0bb-7ce487aef7f1" alt="News" width="100">
+  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/84de8f0a-9c9f-4685-a0bb-7ce487aef7f1" alt="Master" width="100">
 </div>
 
 
@@ -39,7 +43,7 @@ The master node serves as the central command center for the News Collector Syst
 
 <div style="display: flex; align-items: center;">
   <h2>Worker Nodes</h2>
-  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/210e5cca-ba01-462c-92fd-c5def2bb4331" alt="News" width="100">
+  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/210e5cca-ba01-462c-92fd-c5def2bb4331" alt="Worker" width="100">
 </div>
 
 

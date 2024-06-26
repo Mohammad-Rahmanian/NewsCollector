@@ -60,7 +60,11 @@ Each component of the News Collector System is tightly integrated to form a cohe
 The worker and master nodes are orchestrated to maximize data processing efficiency and reliability, ensuring that the system can handle real-time data ingestion and processing without data loss or delay.
 
 
-## Installation and Usage
+<div style="display: flex; align-items: center;">
+  <h2>Installation and Usage</h2>
+  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/ffe34d03-b4da-40e6-8e35-9ee74261716a" alt="News" width="100">
+</div>
+
 
 ### Building Docker Images
 

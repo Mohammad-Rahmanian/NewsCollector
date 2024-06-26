@@ -63,12 +63,13 @@ docker build -f docker/Dockerfile.worker -t app-worker .
 
 ###Running the System with Docker Compose
 After building the Docker images, you can start the system using Docker Compose. Ensure you are in the directory containing the docker-compose.yml file, then execute:
-This command will start all components of the News Collector System, including Kafka brokers, Zookeeper, MySQL Cluster, and the worker and master nodes.
+
 
 ```bash
 docker-compose up -d
 ```
 
+This command will start all components of the News Collector System, including Kafka brokers, Zookeeper, MySQL Cluster, and the worker and master nodes.
 
 
 ###Accessing Adminer

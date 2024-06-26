@@ -36,9 +36,9 @@ The master node serves as the central command center for the News Collector Syst
 - **Kafka Production**: After loading the data, it produces messages containing RSS feed information to Kafka topics, which worker nodes will consume.
 - **Load Balancing**: Distributes tasks evenly across worker nodes to optimize resource utilization and avoid bottlenecks.
 
-### Worker Nodes
+
 <div style="display: flex; align-items: center;">
-  <h2>Master Node</h2>
+  <h2>Worker Nodes</h2>
   <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/210e5cca-ba01-462c-92fd-c5def2bb4331" alt="News" width="100">
 </div>
 

@@ -14,11 +14,11 @@ The News Collector System automates the collection, storage, and management of n
 - **Reliability**: Maintain high availability and persistence of news data through a resilient MySQL Cluster.
 - **Real-Time Processing**: Utilize Kafka for immediate processing and distribution of news data.
 
-<div style="display: flex; align-items: center;">
-  <h1>Architecture/h1>
-  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/3a679d22-1b34-4b5f-9c26-aa297f1229d6" alt="Architecture" width="100">
-</div>
 
+<div style="display: flex; align-items: center;">
+  <h1>Architecture</h1>
+  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/3a679d22-1b34-4b5f-9c26-aa297f1229d6" alt="News" width="100">
+</div>
 
 This project is built around several key components that work together to ensure efficient data handling and storage:
 

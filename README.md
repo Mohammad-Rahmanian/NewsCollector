@@ -25,7 +25,7 @@ This project is built around several key components that work together to ensure
 
 <div style="display: flex; align-items: center;">
   <h2>Master Node</h2>
-  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/27ec3887-7552-43e3-81a4-891c6ce48c50" alt="News" width="200">
+  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/84de8f0a-9c9f-4685-a0bb-7ce487aef7f1" alt="News" width="100">
 </div>
 
 

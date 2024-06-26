@@ -7,7 +7,12 @@
 
 The News Collector System automates the collection, storage, and management of news from various news agencies. By leveraging a distributed architecture that includes a Kafka cluster and MySQL Cluster, the system ensures efficient data flow, high availability, and robustness in processing news feeds.
 
-## Goals
+
+<div style="display: flex; align-items: center;">
+  <h1>Goals</h1>
+  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/b8d18301-aaa2-4d75-9bec-4d5b9f88c747" alt="News" width="100">
+</div>
+
 
 - **Efficient Data Collection**: Automatically gather and update news from multiple sources.
 - **Scalability**: Scale effectively to accommodate growing data and user request loads.

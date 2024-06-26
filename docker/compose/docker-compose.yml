@@ -1,47 +1,6 @@
 version: '2'
 
 services:
-  zookeeper:
-    image: docker.arvancloud.ir/wurstmeister/zookeeper
-    ports:
-      - "2181:2181"
-    networks:
-      - mysqlcluster
-
-
-  kafka1:
-    image: docker.arvancloud.ir/wurstmeister/kafka
-    ports:
-      - "9093:9093"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9093
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-    depends_on:
-      - zookeeper
-    networks:
-      - mysqlcluster
-
-  kafka2:
-    image: docker.arvancloud.ir/wurstmeister/kafka
-    ports:
-      - "9094:9094"
-    environment:
-      KAFKA_BROKER_ID: 2
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9094
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9094
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-    depends_on:
-      - zookeeper
-    networks:
-      - mysqlcluster
-
-
   management1:
     image: docker.arvancloud.ir/mysql/mysql-cluster
     volumes:
@@ -113,6 +72,50 @@ services:
       - mysql1:db
     networks:
       mysqlcluster:
+      
+      
+  zookeeper:
+    image: docker.arvancloud.ir/wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - mysqlcluster
+
+
+  kafka1:
+    image: docker.arvancloud.ir/wurstmeister/kafka
+    ports:
+      - "9093:9093"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+    depends_on:
+      - zookeeper
+    networks:
+      - mysqlcluster
+
+  kafka2:
+    image: docker.arvancloud.ir/wurstmeister/kafka
+    ports:
+      - "9094:9094"
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+    depends_on:
+      - zookeeper
+    networks:
+      - mysqlcluster      
+      
+      
+      
 
   worker1:
     image: app-worker

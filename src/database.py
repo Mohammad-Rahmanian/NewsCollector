@@ -19,20 +19,6 @@ def connect_to_database():
         return None
 
 
-def execute_query(connection, query, commit=False):
-    """Execute a given SQL query on the provided database connection and handle cursor within."""
-    cursor = connection.cursor()
-    try:
-        cursor.execute(query)
-        if commit:
-            connection.commit()
-            app_logger.info("Query executed and committed successfully.")
-    except mysql.connector.Error as err:
-        app_logger.error(f"Failed to execute query: {err}")
-    finally:
-        cursor.close()
-
-
 def insert_news_agency(connection, name, rss_link):
     """Insert a new agency into the 'news_agency' table."""
     cursor = connection.cursor()

@@ -47,3 +47,30 @@ Each component of the News Collector System is tightly integrated to form a cohe
 The worker and master nodes are orchestrated to maximize data processing efficiency and reliability, ensuring that the system can handle real-time data ingestion and processing without data loss or delay.
 
 
+## Installation and Usage
+
+### Building Docker Images
+
+Before running the system, you need to build the Docker images for both the master and the worker nodes. Navigate to the root directory of project  and run the following commands:
+
+```bash
+# Build the master node Docker image
+docker build -f docker/Dockerfile.master -t app-master .
+
+# Build the worker node Docker image
+docker build -f docker/Dockerfile.worker -t app-worker .
+```
+
+###Running the System with Docker Compose
+After building the Docker images, you can start the system using Docker Compose. Ensure you are in the directory containing the docker-compose.yml file, then execute:
+
+```bash
+docker-compose up -d
+```
+This command will start all components of the News Collector System, including Kafka brokers, Zookeeper, MySQL Cluster, and the worker and master nodes.
+
+###Accessing Adminer
+Adminer is set up to manage the MySQL database. It can be accessed via:
+```
+http://localhost:8081
+```

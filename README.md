@@ -69,6 +69,7 @@ docker-compose up -d
 ```
 This command will start all components of the News Collector System, including Kafka brokers, Zookeeper, MySQL Cluster, and the worker and master nodes.
 
+
 ###Accessing Adminer
 Adminer is set up to manage the MySQL database. It can be accessed via:
 ```

@@ -9,9 +9,11 @@ The News Collector System automates the collection, storage, and management of n
 
 
 <div style="display: flex; align-items: center;">
+  
   <h1>Goals</h1>
-  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/b8d18301-aaa2-4d75-9bec-4d5b9f88c747" alt="News" width="100">
+  <img src="https://github.com/Mohammad-Rahmanian/NewsCollector/assets/78559411/b8d18301-aaa2-4d75-9bec-4d5b9f88c747" alt="News" width="80">
 </div>
+
 
 
 - **Efficient Data Collection**: Automatically gather and update news from multiple sources.
